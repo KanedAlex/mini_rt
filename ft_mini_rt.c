@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 19:17:00 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/17 17:52:57 by alienard         ###   ########.fr       */
+/*   Updated: 2020/02/18 21:46:56 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,42 @@ int		ft_aff(t_window *win)
 	return (0);
 }
 
+void	ft_parse(int *check, t_window *win, int fd)
+{
+	char	*line;
+	int		ret;
+
+	while ((ret = get_next_line(fd, &line)) >= 0 && *check != -1)
+	{
+		if (line[0] == 'R' && (ft_isspace(line[1])) == 1)
+			*check = ft_resol_init(win, line);
+		else if (line[0] == 'A' && (ft_isspace(line[1])) == 1)
+			*check = ft_amb_light_init(win, line);
+		else if (line[0] == 'c' && (ft_isspace(line[1])) == 1)
+			*check = ft_cam_init(&win->beg_cam, line);
+		else if (line[0] == 'l' && (ft_isspace(line[1])) == 1)
+			*check = ft_light_init(&win->beg_light, line);
+		else if ((ft_isalpha(line[0])) == 1)
+			*check = ft_shape_init(&win->beg_sh, line);
+		free(line);
+		if (ret == 0)
+			break ;
+	}
+	if (ret == -1)
+		*check = -1;
+}
+
+void	ft_mlx_init(t_window *win)
+{
+	mlx_key_hook(win->win_ptr, &ft_key, &win);
+	mlx_mouse_hook(win->win_ptr, &ft_mouse, &win);
+	mlx_expose_hook(win->win_ptr, &ft_expose, &win);
+	mlx_hook(win->win_ptr, 17, 0, &ft_close, &win);
+	mlx_loop(win->mlx_ptr);
+}
+
 int		main(int ac, char **av)
 {
-	char		*line;
-	int			ret;
 	t_window	win;
 	int			fd;
 	int			check;
@@ -49,26 +81,13 @@ int		main(int ac, char **av)
 	ft_window_init(&win);
 	fd = open(av[1], O_RDONLY);
 	check = 0;
-	while ((ret = get_next_line(fd, &line)) >= 0 && check != -1)
-	{
-		if (line[0] == 'R' && (ft_isspace(line[1])) == 1)
-			check = ft_resol_init(&win, line);
-		else if (line[0] == 'A' && (ft_isspace(line[1])) == 1)
-			check = ft_amb_light_init(&win, line);
-		else if (line[0] == 'c' && (ft_isspace(line[1])) == 1)
-			check = ft_cam_init(&win.beg_cam, line);
-		else if (line[0] == 'l' && (ft_isspace(line[1])) == 1)
-			check = ft_light_init(&win.beg_light, line);
-		else if ((ft_isalpha(line[0])) == 1)
-			check = ft_shape_init(&win.beg_sh, line);
-		free(line);
-		if (ret == 0)
-			break ;
-	}
+	ft_parse(&check, &win, fd);
+	(check == -1) ? ft_close(&win) : 0;
 	if (close(fd) < 0)
 		return (ft_error(2));
 	check = (check != -1) ? ft_check_resol(&win) : check;
 	check = (check != -1) ? ft_check_amb_light(&win) : check;
+	check = (check != -1) ? ft_check_cam_parsing(win.beg_cam) : check;
 	(check == -1) ? ft_close(&win) : 0;
 	if (!(win.mlx_ptr = mlx_init()))
 		return (check = ft_error(3));
@@ -76,10 +95,6 @@ int		main(int ac, char **av)
 	win.win_ptr = mlx_new_window(win.mlx_ptr, win.x, win.y, "test");
 	check = ft_aff(&win);
 	(check == -1) ? ft_close(&win) : 0;
-	mlx_key_hook(win.win_ptr, &ft_key, &win);
-	mlx_mouse_hook(win.win_ptr, &ft_mouse, &win);
-	mlx_expose_hook(win.win_ptr, &ft_expose, &win);
-	mlx_hook(win.win_ptr, 17, 0, &ft_close, &win);
-	mlx_loop(win.mlx_ptr);
+	ft_mlx_init(&win);
 	return (0);
 }

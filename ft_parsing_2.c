@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 21:04:12 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/18 12:43:42 by alienard         ###   ########.fr       */
+/*   Updated: 2020/02/18 22:03:00 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,3 @@ int		ft_light_init(t_light **begin, char *line)
 	*begin = current;
 	return ((*line == '\0') ? ft_check_light_parsing(current) : ft_error(24));
 }
-

@@ -6,7 +6,7 @@
 #    By: alienard <alienard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/09 18:51:33 by alienard          #+#    #+#              #
-#    Updated: 2020/02/12 12:41:23 by alienard         ###   ########.fr        #
+#    Updated: 2020/02/18 21:58:12 by alienard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS =		./ft_mini_rt.c \
 			./ft_scalar.c \
 			./ft_matrix.c \
 			./ft_ray.c \
+			./ft_ray_2.c \
 			./ft_close.c \
 			./ft_error.c
 

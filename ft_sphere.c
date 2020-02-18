@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:56:45 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/18 13:58:25 by alienard         ###   ########.fr       */
+/*   Updated: 2020/02/18 22:03:18 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,16 @@ int		ft_sphere_check(t_shape **current)
 	return (check);
 }
 
+void	ft_sphere_norm(t_shape *sh, t_ray *ray)
+{
+	t_pt	r;
+
+	r = ft_addition(ray->orig, ft_multi_scal(ray->lenght, ray->dir));
+	r = ft_subtraction(r, sh->pt_0);
+	r = ft_normal_vect(r);
+	sh->n = r;
+}
+
 void	ft_intersect_ray_sphere(t_shape *sh, t_ray *ray)
 {
 	double	b;
@@ -71,4 +81,5 @@ void	ft_intersect_ray_sphere(t_shape *sh, t_ray *ray)
 		&& ((-b + sqrt(k)) / 2) < t1)
 		t1 = (-b + sqrt(k)) / 2;
 	ray->lenght = t1;
+	ft_sphere_norm(sh, ray);
 }

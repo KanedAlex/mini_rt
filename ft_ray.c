@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 15:00:43 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/18 14:02:25 by alienard         ###   ########.fr       */
+/*   Updated: 2020/02/18 21:57:55 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,33 +74,4 @@ t_ray	ft_shoot_ray(t_pt orig, t_pt dir, double t)
 	ray.unit = ft_addition(orig, ft_multi_scal(t, dir));
 	ray.unit = ft_normal_vect(ray.unit);
 	return (ray);
-}
-
-t_ray	ft_no_ray(void)
-{
-	t_ray	ray;
-
-	ray.lenght = -1;
-	return (ray);
-}
-
-void	ft_which_shape(t_shape *sh, t_ray *ray)
-{
-	if (sh->id == 's')
-		ft_intersect_ray_sphere(sh, ray);
-	else if (sh->id == 'p')
-		ft_intersect_ray_plan(sh, ray);
-	else if (sh->id == 'q')
-		ft_intersect_ray_square(sh, ray);
-	else if (sh->id == 'y')
-		ft_intersect_ray_cylinder(sh, ray);
-	else if (sh->id == 't')
-		ft_intersect_ray_triangle(sh, ray);
-}
-
-void	ft_inv_pt(t_pt *dir)
-{
-	dir->x = 1 / dir->x;
-	dir->y = 1 / dir->y;
-	dir->z = 1 / dir->z;
 }

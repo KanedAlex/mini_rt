@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 19:46:46 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/13 19:05:49 by alienard         ###   ########.fr       */
+/*   Updated: 2020/02/18 22:00:43 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,17 @@ void	ft_pix(int x, int y, t_window *w, t_argb color)
 	int	const_one;
 
 	const_one = ((w->y - y - 1) * w->x + x) * 4;
-
 	col = 0;
 	col += (char)color.r >> 16;
 	col += (char)color.g >> 8;
 	col += (char)color.b;
-
 	// w->data[y * w->size_line + (w->depth / 8) * x] = (char)color.b;
 	// w->data[(x + y * w->x) * 4 + 1] = (char)color.g;
 	// w->data[y * w->size_line + (w->depth / 8) * x + 2] = (char)color.r;
-
 	w->data[const_one] = col;
-
 	// w->data[(x + y * w->x) * 4] = col; // blue
 	// w->data[(x + y * w->x) * 4] = col; // red
 	// w->data[(x + y * w->x) * 4] = col; // green
-
 	w->data[((w->y - y - 1) * w->x + x) * 4 + 0] = (char)color.b;
 	w->data[((w->y - y - 1) * w->x + x) * 4 + 1] = (char)color.g;
 	w->data[((w->y - y - 1) * w->x + x) * 4 + 2] = (char)color.r;

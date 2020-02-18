@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 14:00:15 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/18 14:00:35 by alienard         ###   ########.fr       */
+/*   Updated: 2020/02/18 17:08:01 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,39 +47,37 @@ int		ft_triangle_check(t_shape **current)
 
 void	ft_intersect_ray_triangle(t_shape *sh, t_ray *ray)
 {
-	t_pt	n;
 	double	d;
 	double	t;
 	t_pt	r;
 
-	n = ft_triangle_norm(sh);
-	d = -ft_dot_product(n, sh->pt_0);
-	t = -(ft_dot_product(n, ray->orig) + d) / ft_dot_product(n, ray->dir);
+	ft_triangle_norm(sh);
+	d = -ft_dot_product(sh->n, sh->pt_0);
+	t = -(ft_dot_product(sh->n, ray->orig) + d) \
+		/ ft_dot_product(sh->n, ray->dir);
 	if (t < 0.0001)
 	{
 		ray->lenght = -1;
 		return ;
 	}
 	r = ft_addition(ray->orig, ft_multi_scal(t, ray->dir));
-	if ((d = ft_is_in_triangle(r, sh, n)) == 0)
+	if ((d = ft_is_in_triangle(r, sh)) == 0)
 		ray->lenght = t;
 	else
 		ray->lenght = -1;
 }
 
-t_pt	ft_triangle_norm(t_shape *sh)
+void	ft_triangle_norm(t_shape *sh)
 {
 	t_pt	u;
 	t_pt	v;
-	t_pt	n;
 
 	u = ft_subtraction(sh->pt_1, sh->pt_0);
 	v = ft_subtraction(sh->pt_2, sh->pt_0);
-	n = ft_cross_product(u, v);
-	return (n);
+	sh->n = ft_cross_product(u, v);
 }
 
-double	ft_is_in_triangle(t_pt ray, t_shape *sh, t_pt n)
+double	ft_is_in_triangle(t_pt r, t_shape *sh)
 {
 	t_mat	edge;
 	t_mat	c;
@@ -87,12 +85,12 @@ double	ft_is_in_triangle(t_pt ray, t_shape *sh, t_pt n)
 	edge.x = ft_subtraction(sh->pt_1, sh->pt_0);
 	edge.y = ft_subtraction(sh->pt_2, sh->pt_1);
 	edge.z = ft_subtraction(sh->pt_0, sh->pt_2);
-	c.x = ft_subtraction(ray, sh->pt_0);
-	c.y = ft_subtraction(ray, sh->pt_1);
-	c.z = ft_subtraction(ray, sh->pt_2);
-	if (ft_dot_product(n, ft_cross_product(edge.x, c.x)) < 0
-		|| ft_dot_product(n, ft_cross_product(edge.y, c.y)) < 0
-		|| ft_dot_product(n, ft_cross_product(edge.z, c.z)) < 0)
+	c.x = ft_subtraction(r, sh->pt_0);
+	c.y = ft_subtraction(r, sh->pt_1);
+	c.z = ft_subtraction(r, sh->pt_2);
+	if (ft_dot_product(sh->n, ft_cross_product(edge.x, c.x)) < 0
+		|| ft_dot_product(sh->n, ft_cross_product(edge.y, c.y)) < 0
+		|| ft_dot_product(sh->n, ft_cross_product(edge.z, c.z)) < 0)
 		return (-1);
 	return (0);
 }

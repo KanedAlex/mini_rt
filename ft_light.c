@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:54:44 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/18 14:16:43 by alienard         ###   ########.fr       */
+/*   Updated: 2020/02/18 22:02:03 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,11 @@
 
 t_pt	ft_pre_light(t_window *win, t_shape *sh, double clos, t_ray *ray)
 {
-	t_pt	n;
 	t_pt	p;
 	t_pt	i;
 
 	p = ft_addition(ray->orig, ft_multi_scal(clos, ray->dir));
-	n = ft_subtraction(p, sh->pt_0);
-	n = ft_normal_vect(n);
-	i = ft_light(win, n, p, sh);
+	i = ft_light(win, sh->n, p, sh);
 	return (i);
 }
 
@@ -36,18 +33,17 @@ t_pt	ft_light(t_window *win, t_pt n, t_pt p, t_shape *sh)
 	ft_pt_init(&i, 0, 0, 0);
 	ft_add_scal(win->ratio, &i);
 	ft_db_mult_to_add_pt(&i, win->ratio, win->col);
-	min = ft_shadow(win, n, p, sh);
 	cur_light = win->beg_light;
 	while (cur_light)
 	{
 		l = ft_normal_vect(ft_subtraction(cur_light->coord, p));
+		min = ft_shadow(win, l, p, sh);
+		min = min - sqrt(ft_lenght(ft_subtraction(cur_light->coord, p)));
 		n_dot_l = ft_dot_product(n, l);
-		// printf("dist light:%.3f	dist sh:%.3f\n", n_dot_l, min);
-		if (n_dot_l > 0.001 /*&& n_dot_l > min*/)
+		if (n_dot_l > 0.001 && min > 0.001)
 		{
-			n_dot_l = cur_light->light_ratio * n_dot_l / ft_lenght(&l);
-			// if (n_dot_l > min)
-				ft_db_mult_to_add_pt(&i, n_dot_l, cur_light->col);
+			n_dot_l = cur_light->light_ratio * n_dot_l / ft_lenght(l);
+			ft_db_mult_to_add_pt(&i, n_dot_l, cur_light->col);
 		}
 		cur_light = cur_light->next;
 	}
@@ -78,7 +74,6 @@ double	ft_shadow(t_window *win, t_pt n, t_pt p, t_shape *sh)
 	t_ray	ray;
 
 	ray.orig = p;
-	// ft_add_scal(0.001, &cam.pij);
 	ray.dir = n;
 	ray.lenght = -1;
 	cur_shape = win->beg_sh;

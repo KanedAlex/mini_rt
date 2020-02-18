@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 18:49:45 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/13 19:05:49 by alienard         ###   ########.fr       */
+/*   Updated: 2020/02/18 19:02:17 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ double	ft_sqr(double d)
 	return (d * d);
 }
 
-double	ft_lenght(t_pt *a)
+double	ft_lenght(t_pt a)
 {
 	double len;
 
-	len = ft_sqr(a->x) + ft_sqr(a->y) + ft_sqr(a->z);
+	len = ft_sqr(a.x) + ft_sqr(a.y) + ft_sqr(a.z);
 	return (len);
 }
 
@@ -30,7 +30,7 @@ t_pt	ft_normal_vect(t_pt a)
 	double	len;
 	t_pt	b;
 
-	len = sqrt(ft_lenght(&a));
+	len = sqrt(ft_lenght(a));
 	b = ft_div_scal(len, a);
 	return (b);
 }

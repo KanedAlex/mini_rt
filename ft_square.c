@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 11:15:20 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/18 13:58:36 by alienard         ###   ########.fr       */
+/*   Updated: 2020/02/18 17:25:57 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,28 @@ int		ft_square_check(t_shape **current)
 	return (check);
 }
 
+void	ft_square_norm(t_shape *sh)
+{
+	sh->n = sh->ori;
+}
+
 void	ft_intersect_ray_square(t_shape *sh, t_ray *ray)
 {
-	t_pt	n;
 	double	d;
 	double	t;
 	t_pt	r;
 
-	n = sh->ori;
-	d = -ft_dot_product(n, sh->pt_0);
-	t = -(ft_dot_product(n, ray->orig) + d) / ft_dot_product(n, ray->dir);
+	sh->n = sh->ori;
+	d = -ft_dot_product(sh->n, sh->pt_0);
+	t = -(ft_dot_product(sh->n, ray->orig) + d) \
+		/ ft_dot_product(sh->n, ray->dir);
 	if (t < 0.0001)
 	{
 		ray->lenght = -1;
 		return ;
 	}
 	r = ft_addition(ray->orig, ft_multi_scal(t, ray->dir));
-	if ((d = ft_is_in_square(ray, sh, n)) == 0)
+	if ((d = ft_is_in_square(ray, sh, sh->n)) == 0)
 		ray->lenght = t;
 	else
 		ray->lenght = -1;
@@ -99,31 +104,3 @@ double	ft_is_in_square(t_ray *ray, t_shape *sh, t_pt n)
 		return (-1);
 	return (0);
 }
-
-// double	ft_is_in_square(t_cam *cam, t_shape *sh, t_pt outnorm)
-// {
-// 	t_pt	m;
-// 	t_pt	n;
-// 	t_pt	k;
-// 	t_pt	t1;
-// 	t_pt	t2;
-// 	t_pt	tmp;
-// 	double	t_n;
-// 	double	t_f;
-
-// 	(void)outnorm;
-// 	m = cam->rij;
-// 	ft_inv_pt(&m);
-// 	n = ft_multi_vect(m, cam->pij);
-// 	ft_pt_init(&tmp, -1, -1, -1);
-// 	k.x = fabs(m.x) * sh->height;
-// 	k.y = fabs(m.y) * sh->height;
-// 	k.z = fabs(m.z) * sh->height;
-// 	t1 = ft_subtraction(ft_multi_vect(tmp, n), k);
-// 	t2 = ft_addition(ft_multi_vect(tmp, n), k);
-// 	t_n = fmax(fmax(t1.x, t1.y), t1.z);
-// 	t_f = fmax(fmax(t2.x, t2.y), t2.z);
-// 	if (t_n > t_f || t_f < 0.0 )
-// 		return (-1);
-// 	return (0);
-// }

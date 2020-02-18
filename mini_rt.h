@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/29 16:18:11 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/18 14:18:50 by alienard         ###   ########.fr       */
+/*   Updated: 2020/02/18 22:28:57 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct	s_shape
 	t_pt			pt_1;
 	t_pt			pt_2;
 	t_pt			ori;
+	t_pt			n;
 	double			diameter;
 	double			height;
 	struct s_shape	*next;
@@ -104,6 +105,9 @@ typedef struct	s_window
 	t_shape			*beg_sh;
 	t_light			*beg_light;
 }				t_window;
+
+void			ft_parse(int *check, t_window *win, int fd);
+void			ft_mlx_init(t_window *win);
 
 int				ft_window_init(t_window *win);
 void			ft_argb_init(t_argb *a);
@@ -149,13 +153,13 @@ int				ft_free_lst_cam(t_window *win);
 int				ft_free_lst_light(t_window *win);
 int				ft_free_lst_sh(t_window *win);
 
-int				ft_key(int keycode, t_window *param);
-int				ft_mouse(int button, int x, int y, t_window *param);
-int				ft_expose(t_window *win);
+int				ft_key(int keycode, t_window **param);
+int				ft_mouse(int button, int x, int y, t_window **param);
+int				ft_expose(t_window **win);
 
 double			ft_sqr(double d);
 double			ft_dot_product(t_pt a, t_pt b);
-double			ft_lenght(t_pt *a);
+double			ft_lenght(t_pt a);
 t_pt			ft_normal_vect(t_pt a);
 void			ft_orthogonality(t_pt a, t_pt b);
 t_pt			ft_cross_product(t_pt a, t_pt b);
@@ -199,15 +203,14 @@ void			ft_intersect_ray_square(t_shape *sh, t_ray *ray);
 void			ft_intersect_ray_cylinder(t_shape *sh, t_ray *ray);
 void			ft_intersect_ray_triangle(t_shape *sh, t_ray *ray);
 
-t_pt			ft_shape_norm(t_shape *sh, t_ray *ray);
-t_pt			ft_triangle_norm(t_shape *sh);
+void			ft_shape_norm(t_shape *sh, t_ray *ray);
+void			ft_sphere_norm(t_shape *sh, t_ray *ray);
+void			ft_plane_norm(t_shape *sh);
+void			ft_square_norm(t_shape *sh);
+void			ft_cylinder_norm(t_shape *sh, t_ray *ray);
+void			ft_triangle_norm(t_shape *sh);
 
-double			ft_is_in_triangle(t_pt ray, t_shape *sh, t_pt n);
+double			ft_is_in_triangle(t_pt r, t_shape *sh);
 double			ft_is_in_square(t_ray *ray, t_shape *sh, t_pt n);
-
-int				ft_aff_sq(t_shape *cur_shape, t_window *win);
-double			ft_aff_sp(t_shape *sh, t_cam *cam, t_pt v);
-int				ft_aff_pl(t_shape *cur, t_window *win);
-void			ft_droite(int x1, int y1, int x2, int y2, t_window *w);
 
 #endif

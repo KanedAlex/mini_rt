@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:58:00 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/18 13:57:38 by alienard         ###   ########.fr       */
+/*   Updated: 2020/02/18 22:29:39 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,16 @@ int		ft_cylinder_check(t_shape **current)
 	return (check);
 }
 
+void	ft_cylinder_norm(t_shape *sh, t_ray *ray)
+{
+	t_pt	r;
+
+	r = ft_addition(ray->orig, ft_multi_scal(ray->lenght, ray->dir));
+	r = ft_subtraction(r, sh->pt_0);
+	r = ft_normal_vect(r);
+	sh->n = r;
+}
+
 void	ft_intersect_ray_cylinder(t_shape *sh, t_ray *ray)
 {
 	t_pt	pa;
@@ -76,9 +86,7 @@ void	ft_intersect_ray_cylinder(t_shape *sh, t_ray *ray)
 
 	pa = sh->pt_0;
 	pb = sh->pt_0;
-	// ft_multi_scal(sh->height, sh->ori);
-	// pb = ft_addition(sh->ori, pb);
-	ft_add_scal(sh->height, &pb);
+	pb = ft_addition(pb, ft_multi_scal(sh->height, sh->ori));
 	ra = sh->diameter / 2;
 	ca = ft_subtraction(pb, pa);
 	oc = ft_subtraction(ray->orig, pa);
@@ -104,6 +112,7 @@ void	ft_intersect_ray_cylinder(t_shape *sh, t_ray *ray)
 	if (y > 0.0001 && y < ca_d_ca)
 	{
 		ray->lenght = t1;
+		ft_cylinder_norm(sh, ray);
 		return ;
 	}
 	y = (y < 0.0001) ? 0 : ca_d_ca;
@@ -111,6 +120,7 @@ void	ft_intersect_ray_cylinder(t_shape *sh, t_ray *ray)
 	if ((fabs(b + a * t1)) < delta)
 	{
 		ray->lenght = t1;
+		sh->n = sh->ori;
 		return ;
 	}
 	ray->lenght = -1;
