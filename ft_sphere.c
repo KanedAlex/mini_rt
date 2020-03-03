@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:56:45 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/18 22:03:18 by alienard         ###   ########.fr       */
+/*   Updated: 2020/03/02 18:15:19 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,23 +63,26 @@ void	ft_intersect_ray_sphere(t_shape *sh, t_ray *ray)
 {
 	double	b;
 	double	c;
-	double	k;
-	double	t1;
+	t_pt	calc;
 	t_pt	oc;
 
+	sh->in = 0;
 	oc = ft_subtraction(ray->orig, sh->pt_0);
+	if (ft_lenght(oc) < sh->diameter)
+		ft_multi_scal(-1, oc);
 	b = 2 * ft_dot_product(oc, ray->dir);
 	c = ft_dot_product(oc, oc) - ft_sqr(sh->diameter / 2);
-	k = (b * b) - (4 * c);
-	if (k < 0)
-	{
-		ray->lenght = -1;
+	calc.x = (b * b) - (4 * c);
+	if (calc.x < 0 && (ray->lenght = -1))
 		return ;
-	}
-	t1 = (-b - sqrt(k)) / 2;
-	if (((-b + sqrt(k)) / 2) > 0.0001
-		&& ((-b + sqrt(k)) / 2) < t1)
-		t1 = (-b + sqrt(k)) / 2;
-	ray->lenght = t1;
+	calc.y = (-b - sqrt(calc.x)) / 2;
+	calc.z = (-b + sqrt(calc.x)) / 2;
+	if (calc.z > 0.0001 && calc.z < calc.y)
+		calc.y = calc.z;
+	else if (calc.z > 0.0001 && calc.y < 0.0001)
+		calc.y = calc.z;
+	ray->lenght = calc.y;
 	ft_sphere_norm(sh, ray);
+	if (ft_dot_product(ray->dir, sh->n) > 0.001)
+		ft_inv_norm(&sh->n);
 }

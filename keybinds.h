@@ -1,38 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero_struct.c                                  :+:      :+:    :+:   */
+/*   keybinds.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/10 20:35:36 by alienard          #+#    #+#             */
-/*   Updated: 2020/03/02 18:06:18 by alienard         ###   ########.fr       */
+/*   Created: 2020/03/02 19:01:55 by alienard          #+#    #+#             */
+/*   Updated: 2020/03/02 19:30:42 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mini_rt.h"
+#ifndef KEYBINDS_H
+# define KEYBINDS_H
 
-int		ft_window_init(t_window *win)
-{
-	win->beg_sh = NULL;
-	win->beg_cam = NULL;
-	win->beg_light = NULL;
-	win->mlx_ptr = NULL;
-	win->win_ptr = NULL;
-	win->img_ptr = NULL;
-	win->data = NULL;
-	win->endian = -1;
-	win->x = -1;
-	win->y = -1;
-	win->ratio = -1;
-	win->resol = RESOL;
-	return (0);
-}
+# define ESC		53
+# define MV_R		0
+# define MV_L		2
+# define MV_BKW		1
+# define MV_FWD		13
+# define MV_UP		116
+# define MV_DWN		121
+# define LK_LFT		123
+# define LK_RGT		124
+# define LK_UP		126
+# define LK_DWN		125
+# define LK_ZL		43
+# define LK_ZR		47
+# define FOV_P		69
+# define FOV_N		78
+# define CHG_RES	15
+# define NXT_CAM	49
 
-void	ft_argb_init(t_argb *a)
-{
-	a->a = 0;
-	a->r = 0;
-	a->g = 0;
-	a->b = 0;
-}
+#endif

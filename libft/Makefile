@@ -6,7 +6,7 @@
 #    By: alienard <alienard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/09 18:51:33 by alienard          #+#    #+#              #
-#    Updated: 2020/02/13 15:47:18 by alienard         ###   ########.fr        #
+#    Updated: 2020/02/25 21:38:49 by alienard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,7 +80,7 @@ AR = 		ar rc
 
 HEADER = 	./
 
-CFLAGS =	-Wall -Wextra -Werror
+CFLAGS =	-Wall -Wextra -Werror -ofast
 
 .c.o:		$(SRCS)
 			$(CC) $(CFLAGS) -c $< -I $(HEADER) -o $(<:.c=.o)

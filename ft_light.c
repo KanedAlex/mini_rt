@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:54:44 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/18 22:02:03 by alienard         ###   ########.fr       */
+/*   Updated: 2020/03/02 18:03:50 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,23 @@ t_pt	ft_light(t_window *win, t_pt n, t_pt p, t_shape *sh)
 	double	n_dot_l;
 	double	min;
 
-	ft_pt_init(&i, 0, 0, 0);
-	ft_add_scal(win->ratio, &i);
+	i = ft_add_scal(win->ratio, (t_pt){0, 0, 0});
 	ft_db_mult_to_add_pt(&i, win->ratio, win->col);
 	cur_light = win->beg_light;
 	while (cur_light)
 	{
 		l = ft_normal_vect(ft_subtraction(cur_light->coord, p));
-		min = ft_shadow(win, l, p, sh);
-		min = min - sqrt(ft_lenght(ft_subtraction(cur_light->coord, p)));
 		n_dot_l = ft_dot_product(n, l);
+		min = ft_shadow(win, l, p, sh);
+		min = min - ft_lenght(ft_subtraction(cur_light->coord, p));
 		if (n_dot_l > 0.001 && min > 0.001)
 		{
-			n_dot_l = cur_light->light_ratio * n_dot_l / ft_lenght(l);
+			n_dot_l = cur_light->light_ratio * n_dot_l / (ft_lenght(l) \
+				* ft_lenght(n));
 			ft_db_mult_to_add_pt(&i, n_dot_l, cur_light->col);
 		}
 		cur_light = cur_light->next;
 	}
-	i = ft_div_scal(ft_lstsize_light(win) + 1, i);
 	return (i);
 }
 
@@ -79,10 +78,11 @@ double	ft_shadow(t_window *win, t_pt n, t_pt p, t_shape *sh)
 	cur_shape = win->beg_sh;
 	min_sh = NULL;
 	min = INFINITY;
+	(void)sh;
 	while (cur_shape)
 	{
 		ft_which_shape(cur_shape, &ray);
-		if (ray.lenght > 0.0001 && ray.lenght < min && cur_shape != sh)
+		if (ray.lenght > 0.0001 && ray.lenght < min)
 		{
 			min = ray.lenght;
 			min_sh = cur_shape;

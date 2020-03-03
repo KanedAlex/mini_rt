@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 14:00:15 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/18 17:08:01 by alienard         ###   ########.fr       */
+/*   Updated: 2020/03/02 18:11:50 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_intersect_ray_triangle(t_shape *sh, t_ray *ray)
 		return ;
 	}
 	r = ft_addition(ray->orig, ft_multi_scal(t, ray->dir));
-	if ((d = ft_is_in_triangle(r, sh)) == 0)
+	if ((d = ft_is_in_triangle(r, sh, ray)) == 0)
 		ray->lenght = t;
 	else
 		ray->lenght = -1;
@@ -75,9 +75,10 @@ void	ft_triangle_norm(t_shape *sh)
 	u = ft_subtraction(sh->pt_1, sh->pt_0);
 	v = ft_subtraction(sh->pt_2, sh->pt_0);
 	sh->n = ft_cross_product(u, v);
+	sh->n = ft_normal_vect(sh->n);
 }
 
-double	ft_is_in_triangle(t_pt r, t_shape *sh)
+double	ft_is_in_triangle(t_pt r, t_shape *sh, t_ray *ray)
 {
 	t_mat	edge;
 	t_mat	c;
@@ -92,5 +93,10 @@ double	ft_is_in_triangle(t_pt r, t_shape *sh)
 		|| ft_dot_product(sh->n, ft_cross_product(edge.y, c.y)) < 0
 		|| ft_dot_product(sh->n, ft_cross_product(edge.z, c.z)) < 0)
 		return (-1);
+	sh->n = c.x;
+	sh->n = ft_normal_vect(sh->n);
+	ft_triangle_norm(sh);
+	if (ft_dot_product(ft_subtraction(sh->pt_0, ray->orig), sh->n) > 0.001)
+		ft_inv_norm(&sh->n);
 	return (0);
 }

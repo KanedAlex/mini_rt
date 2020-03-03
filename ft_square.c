@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 11:15:20 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/18 17:25:57 by alienard         ###   ########.fr       */
+/*   Updated: 2020/03/02 18:16:37 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	ft_intersect_ray_square(t_shape *sh, t_ray *ray)
 	t_pt	r;
 
 	sh->n = sh->ori;
-	d = -ft_dot_product(sh->n, sh->pt_0);
-	t = -(ft_dot_product(sh->n, ray->orig) + d) \
+	t = -ft_dot_product(sh->n, sh->pt_0);
+	t = -(ft_dot_product(sh->n, ray->orig) + t) \
 		/ ft_dot_product(sh->n, ray->dir);
 	if (t < 0.0001)
 	{
@@ -73,34 +73,28 @@ void	ft_intersect_ray_square(t_shape *sh, t_ray *ray)
 		return ;
 	}
 	r = ft_addition(ray->orig, ft_multi_scal(t, ray->dir));
-	if ((d = ft_is_in_square(ray, sh, sh->n)) == 0)
+	if ((d = ft_is_in_square(ray, sh, r)) == 0)
+	{
 		ray->lenght = t;
+		ft_square_norm(sh);
+		if (ft_dot_product(ft_subtraction(sh->pt_0, ray->orig), sh->n) > 0.001)
+			ft_inv_norm(&sh->n);
+	}
 	else
 		ray->lenght = -1;
 }
 
-double	ft_is_in_square(t_ray *ray, t_shape *sh, t_pt n)
+double	ft_is_in_square(t_ray *ray, t_shape *sh, t_pt r)
 {
-	t_pt	t_min;
-	t_pt	t_max;
+	t_pt	tmp;
+	double	h;
 
-	sh->pt_1 = ft_addition(ft_multi_scal(sh->height, n), sh->pt_0);
-	t_min.x = (sh->pt_0.x - ray->orig.x) / ray->dir.x;
-	t_max.x = (sh->pt_1.x - ray->orig.x) / ray->dir.x;
-	if (t_min.x > t_max.x)
-		ft_swap_double(&t_min.x, &t_max.x);
-	t_min.y = (sh->pt_0.y - ray->orig.y) / ray->dir.y;
-	t_max.y = (sh->pt_1.y - ray->orig.y) / ray->dir.y;
-	if (t_min.y > t_max.y)
-		ft_swap_double(&t_min.y, &t_max.y);
-	if (t_min.x > t_max.y || t_min.y > t_max.x)
-		return (-1);
-	t_min.z = (sh->pt_0.z - ray->orig.z) / ray->dir.z;
-	t_max.z = (sh->pt_1.z - ray->orig.z) / ray->dir.z;
-	if (t_min.z < t_max.z)
-		ft_swap_double(&t_min.z, &t_max.z);
-	if (t_min.x > t_max.z || t_min.z > t_max.x
-		|| t_min.y > t_max.z || t_min.z > t_max.y)
+	(void)ray;
+	h = sh->height / 2;
+	tmp.x = fabs(r.x - sh->pt_0.x);
+	tmp.y = fabs(r.y - sh->pt_0.y);
+	tmp.z = fabs(r.z - sh->pt_0.z);
+	if (tmp.x > h || tmp.y > h || tmp.z > h)
 		return (-1);
 	return (0);
 }

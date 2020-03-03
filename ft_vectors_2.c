@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 12:04:58 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/13 19:05:49 by alienard         ###   ########.fr       */
+/*   Updated: 2020/02/28 12:33:03 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,12 @@ t_pt	ft_multi_vect(t_pt a, t_pt b)
 	return (c);
 }
 
-void	ft_swap_pt(t_pt *a, t_pt *b)
+t_pt	ft_neg_pt(t_pt dir)
 {
-	t_pt c;
+	t_pt	tmp;
 
-	c = *a;
-	*a = *b;
-	*b = c;
+	tmp.x = -dir.x;
+	tmp.y = -dir.y;
+	tmp.z = -dir.z;
+	return (tmp);
 }

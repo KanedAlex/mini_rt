@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:58:00 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/18 22:29:39 by alienard         ###   ########.fr       */
+/*   Updated: 2020/03/02 18:59:17 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,72 +55,37 @@ int		ft_cylinder_check(t_shape **current)
 void	ft_cylinder_norm(t_shape *sh, t_ray *ray)
 {
 	t_pt	r;
+	t_pt	n;
 
 	r = ft_addition(ray->orig, ft_multi_scal(ray->lenght, ray->dir));
-	r = ft_subtraction(r, sh->pt_0);
-	r = ft_normal_vect(r);
-	sh->n = r;
+	n = ft_subtraction(r, sh->pt_0);
+	n = ft_normal_vect(ft_cross_product(n, sh->ori));
+	n = ft_cross_product(n, sh->ori);
+	ft_inv_norm(&n);
+	sh->n = n;
+	if (ft_dot_product(ray->dir, sh->n) > 0.001)
+		ft_inv_norm(&sh->n);
 }
 
 void	ft_intersect_ray_cylinder(t_shape *sh, t_ray *ray)
 {
-	t_pt	pa;
-	t_pt	pb;
-	double	ra;
-	t_pt	ca;
-	t_pt	oc;
+	t_mat	tmp;
+	t_argb	dot;
+	t_pt	calc;
+	t_argb	dist;
+	int		ret;
 
-	double	ca_d_ca;
-	double	ca_d_rd;
-	double	ca_d_oc;
-
-	double	a;
-	double	b;
-	double	c;
-
-	double	delta;
-	double	t1;
-	double	t2;
-
-	double	y;
-
-	pa = sh->pt_0;
-	pb = sh->pt_0;
-	pb = ft_addition(pb, ft_multi_scal(sh->height, sh->ori));
-	ra = sh->diameter / 2;
-	ca = ft_subtraction(pb, pa);
-	oc = ft_subtraction(ray->orig, pa);
-	ca_d_ca = ft_dot_product(ca, ca);
-	ca_d_rd = ft_dot_product(ca, ray->dir);
-	ca_d_oc = ft_dot_product(ca, oc);
-
-	a = ca_d_ca - ft_sqr(ca_d_rd);
-	b = ca_d_ca * ft_dot_product(oc, ray->dir) - ca_d_oc * ca_d_rd;
-	c = ca_d_ca * ft_dot_product(oc, oc) - ft_sqr(ca_d_oc) - ft_sqr(ra) * ca_d_ca;
-	delta = b * b - a * c;
-	if (delta < 0.0001)
-	{
-		ray->lenght = -1;
+	ft_cylinder_calc_one(sh, ray, &tmp, &dot);
+	ft_cylinder_calc_two(&calc, ray, &tmp, &dot);
+	if ((ret = ft_cylinder_calc_three(&calc, &dist, &dot, ray)) != 0)
 		return ;
-	}
-	delta = sqrt(delta);
-	t1 = (-b - delta) / a;
-	t2 = (-b + delta) / a;
-	if (t2 > 0.0001 && t2 < t1)
-		t1 = t2;
-	y = ca_d_oc + t1 * ca_d_rd;
-	if (y > 0.0001 && y < ca_d_ca)
-	{
-		ray->lenght = t1;
-		ft_cylinder_norm(sh, ray);
+	if ((ret = ft_cylinder_calc_five(sh, &dist, &dot, ray)) != 0)
 		return ;
-	}
-	y = (y < 0.0001) ? 0 : ca_d_ca;
-	t1 = (y - ca_d_oc) / ca_d_rd;
-	if ((fabs(b + a * t1)) < delta)
+	if ((fabs(calc.y + calc.x * dist.r)) < dist.a \
+		&& (ray->lenght = dist.r + 0.001))
 	{
-		ray->lenght = t1;
-		sh->n = sh->ori;
+		if (ft_dot_product(ray->dir, sh->n) > 0)
+			ft_inv_norm(&sh->n);
 		return ;
 	}
 	ray->lenght = -1;

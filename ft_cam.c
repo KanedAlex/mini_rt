@@ -6,66 +6,58 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:54:29 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/13 19:05:49 by alienard         ###   ########.fr       */
+/*   Updated: 2020/03/02 18:52:38 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-t_pt	ft_translation(t_pt coord, t_pt m1)
+t_pt	ft_rotation_vect(t_pt p, t_pt ori)
 {
-	t_pt	m2;
+	t_pt	tmp;
 
-	m2 = m1;
-	if (coord.x != 0)
-		m2.x += coord.x;
-	if (coord.y != 0)
-		m2.y += coord.y;
-	if (coord.x != 0)
-		m2.z += coord.z;
-	return (m2);
+	tmp = ft_rotate_arr_x(p, ori.x * M_PI);
+	tmp = ft_rotate_arr_y(tmp, ori.y * M_PI);
+	tmp = ft_rotate_arr_z(tmp, ori.z * M_PI);
+	return (tmp);
 }
 
-t_pt	ft_rotation(t_pt ori, t_pt m1)
+t_pt	ft_rot_angle(t_pt p, double a)
 {
-	t_pt	m2;
+	t_pt	tmp;
 
-	m2 = m1;
-	if (ori.x != 0)
-		m2 = ft_multi_vect(m1, ft_rot_arr_x(ori.x * (M_PI / 180)));
-	if (ori.y != 0)
-		m2 = ft_multi_vect(m1, ft_rot_arr_x(ori.y * (M_PI / 180)));
-	if (ori.z != 0)
-		m2 = ft_multi_vect(m1, ft_rot_arr_x(ori.z * (M_PI / 180)));
-	return (m2);
+	tmp = ft_rotate_arr_x(p, a);
+	tmp = ft_rotate_arr_y(tmp, a);
+	tmp = ft_rotate_arr_z(tmp, a);
+	return (tmp);
 }
 
-t_pt	ft_rot_arr_x(double angle)
+t_pt	ft_rotate_arr_x(t_pt p, double a)
 {
-	t_pt	m;
+	t_pt	tmp;
 
-	m.x = 1;
-	m.y = cos(angle) - sin(angle);
-	m.z = sin(angle) + cos(angle);
-	return (m);
+	tmp.x = p.x;
+	tmp.y = cos(a) * p.y + sin(a) * p.z;
+	tmp.z = -sin(a) * p.y + cos(a) * p.z;
+	return (tmp);
 }
 
-t_pt	ft_rot_arr_y(double angle)
+t_pt	ft_rotate_arr_y(t_pt p, double a)
 {
-	t_pt	m;
+	t_pt	tmp;
 
-	m.x = cos(angle) + sin(angle);
-	m.y = 1;
-	m.z = cos(angle) - sin(angle);
-	return (m);
+	tmp.x = cos(a) * p.x - sin(a) * p.z;
+	tmp.y = p.y;
+	tmp.z = sin(a) * p.x + cos(a) * p.z;
+	return (tmp);
 }
 
-t_pt	ft_rot_arr_z(double angle)
+t_pt	ft_rotate_arr_z(t_pt p, double a)
 {
-	t_pt	m;
+	t_pt	tmp;
 
-	m.x = cos(angle) - sin(angle);
-	m.y = cos(angle) + sin(angle);
-	m.z = 1;
-	return (m);
+	tmp.x = cos(a) * p.x + sin(a) * p.y;
+	tmp.y = -sin(a) * p.x + cos(a) * p.y;
+	tmp.z = p.z;
+	return (tmp);
 }

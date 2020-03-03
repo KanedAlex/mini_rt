@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 09:33:32 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/13 19:05:49 by alienard         ###   ########.fr       */
+/*   Updated: 2020/02/19 13:26:29 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int		ft_shape_init(t_shape **begin, char *line)
 	ret = (i == 't') ? ft_triangle_init(&current, line) : ret;
 	current->next = *begin;
 	*begin = current;
+	if (ret == -1)
+		return (ft_error(17));
 	return (ret);
 }
 

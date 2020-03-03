@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:57:37 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/18 17:23:07 by alienard         ###   ########.fr       */
+/*   Updated: 2020/03/02 18:12:08 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,23 @@ int		ft_plane_check(t_shape **current)
 void	ft_plane_norm(t_shape *sh)
 {
 	sh->n = sh->ori;
+	sh->n = ft_rot_angle(sh->n, M_PI_2);
 }
 
 void	ft_intersect_ray_plan(t_shape *sh, t_ray *ray)
 {
 	double	t;
+	double	d;
 
-	t = fabs(ft_dot_product(ft_subtraction(ray->orig, sh->pt_0), sh->ori))
-		/ ft_dot_product(ray->dir, sh->ori);
+	d = -ft_dot_product(sh->ori, sh->pt_0);
+	t = -(ft_dot_product(sh->ori, ray->orig) + d) \
+		/ ft_dot_product(sh->ori, ray->dir);
 	if (t > 0.0001)
 	{
 		ray->lenght = t;
 		ft_plane_norm(sh);
+		if (ft_dot_product(ft_subtraction(sh->pt_0, ray->orig), sh->n) > 0.001)
+			ft_inv_norm(&sh->n);
 	}
 	else
 		ray->lenght = -1;

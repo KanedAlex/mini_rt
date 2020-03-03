@@ -6,7 +6,7 @@
 #    By: alienard <alienard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/09 18:51:33 by alienard          #+#    #+#              #
-#    Updated: 2020/02/18 21:58:12 by alienard         ###   ########.fr        #
+#    Updated: 2020/03/02 18:40:57 by alienard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS =		./ft_mini_rt.c \
 			./ft_plane.c \
 			./ft_square.c \
 			./ft_cylinder.c \
+			./ft_cylinder_2.c \
 			./ft_triangle.c \
 			./ft_argb.c \
 			./ft_event.c \
@@ -33,7 +34,9 @@ SRCS =		./ft_mini_rt.c \
 			./ft_matrix.c \
 			./ft_ray.c \
 			./ft_ray_2.c \
+			./ft_pt.c \
 			./ft_close.c \
+			./ft_save.c \
 			./ft_error.c
 
 OBJS = 		$(SRCS:.c=.o)
@@ -46,7 +49,7 @@ AR = 		ar rc
 
 HEADER = 	./
 
-CFLAGS =	-Wall -Wextra -Werror -g
+CFLAGS =	-Wall -Wextra -Werror -g -ofast
 
 MLXFLAGS = -lmlx -framework OpenGL -framework AppKit
 
