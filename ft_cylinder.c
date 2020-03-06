@@ -6,49 +6,50 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:58:00 by alienard          #+#    #+#             */
-/*   Updated: 2020/03/02 18:59:17 by alienard         ###   ########.fr       */
+/*   Updated: 2020/03/05 15:21:57 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-int		ft_cylinder_init(t_shape **current, char *line)
+int		ft_cylinder_init(t_window *win, t_shape **cur, char *line)
 {
 	int check;
 
-	(*current)->id = 'y';
+	(*cur)->id = 'y';
 	while ((ft_isspace(*line)) == 1 || (ft_isalpha(*line)) == 1)
 		line++;
-	check = (ft_isnum(line) == 1) ? ft_point_init(&(*current)->pt_0, &line)
-		: ft_error(38);
-	check = (ft_isnum(line) == 1) ? ft_point_init(&(*current)->ori, &line)
-		: ft_error(38);
+	check = (ft_isnum(line) == 1) ? ft_point_init(win, &(*cur)->pt_0, &line)
+		: ft_error(7, win, "cylinder point");
+	check = (ft_isnum(line) == 1) ? ft_point_init(win, &(*cur)->ori, &line)
+		: ft_error(7, win, "cylinder orientation");
 	if (ft_isdigit(*line) == 1)
-		(*current)->diameter = ft_atof(line);
+		(*cur)->diameter = ft_atof(line);
 	else
-		check = ft_error(38);
+		check = ft_error(7, win, "cylinder diameter");
 	ft_iterate_in_line(&line);
-	(*current)->height = ((ft_isdigit(*line) == 1) ? ft_atof(line)
-		: ft_error(38));
+	(*cur)->height = ((ft_isdigit(*line) == 1) ? ft_atof(line)
+		: ft_error(7, win, "cylinder height"));
 	ft_iterate_in_line(&line);
-	check = (ft_isdigit(*line) == 1) ? ft_color_init(&(*current)->color, &line)
-		: ft_error(38);
+	check = (ft_isdigit(*line) == 1) ? ft_color_init(win, &(*cur)->color, &line)
+		: ft_error(7, win, "cylinder color");
 	if (check == 0)
-		check = (*line == '\0') ? ft_cylinder_check(current) : ft_error(29);
-	return (check);
+		check = (*line == '\0') ? ft_cylinder_check(win, cur)
+			: ft_error(4, win, "cylinder");
+	return (check == 0 ? 0 : ft_error(check, win, "cylinder"));
 }
 
-int		ft_cylinder_check(t_shape **current)
+int		ft_cylinder_check(t_window *win, t_shape **cur)
 {
 	int check;
 
-	if (!current || !(*current))
-		return (ft_error(17));
-	if ((*current)->height < 0.0 || (*current)->diameter < 0.0)
-		return (ft_error(20));
-	check = ft_pt_check((*current)->pt_0);
-	check = ft_color_check((*current)->color);
-	check = ft_ori_check((*current)->ori);
+	if (!cur || !(*cur))
+		return (ft_error(17, win, ""));
+	if ((*cur)->height < 0.0 || (*cur)->diameter < 0.0)
+		return (ft_error(20, win, ""));
+	check = ft_pt_check(win, (*cur)->pt_0);
+	check = (check == 0) ? ft_color_check(win, (*cur)->color) : check;
+	check = (check == 0) ? ft_ori_check(win, (*cur)->ori) : check;
 	return (check);
 }
 

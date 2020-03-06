@@ -6,49 +6,51 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 11:15:20 by alienard          #+#    #+#             */
-/*   Updated: 2020/03/02 18:16:37 by alienard         ###   ########.fr       */
+/*   Updated: 2020/03/05 15:23:35 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-int		ft_square_init(t_shape **current, char *line)
+int		ft_square_init(t_window *win, t_shape **cur, char *line)
 {
 	int check;
 
-	(*current)->id = 'q';
+	(*cur)->id = 'q';
 	while ((ft_isspace(*line)) == 1 || (ft_isalpha(*line)) == 1)
 		line++;
-	check = (ft_isnum(line) == 1) ? ft_point_init(&(*current)->pt_0, &line)
-		: ft_error(34);
-	check = (ft_isnum(line) == 1) ? ft_point_init(&(*current)->ori, &line)
-		: ft_error(34);
+	check = (ft_isnum(line) == 1) ? ft_point_init(win, &(*cur)->pt_0, &line)
+		: ft_error(7, win, "square point");
+	check = (ft_isnum(line) == 1) ? ft_point_init(win, &(*cur)->ori, &line)
+		: ft_error(7, win, "square orientation");
 	if (ft_isdigit(*line) == 1)
-		(*current)->height = ft_atof(line);
+		(*cur)->height = ft_atof(line);
 	else
-		check = ft_error(34);
+		check = ft_error(7, win, "square height");
 	while ((ft_isdigit(*line)) == 1 || *line == '.')
 		line++;
 	while ((ft_isspace(*line)) == 1)
 		line++;
-	check = (ft_isdigit(*line) == 1) ? ft_color_init(&(*current)->color, &line)
-		: ft_error(34);
+	check = (ft_isdigit(*line) == 1) ? ft_color_init(win, &(*cur)->color, &line)
+		: ft_error(7, win, "square color");
 	if (check == 0)
-		check = (*line == '\0') ? ft_square_check(current) : ft_error(25);
-	return (check);
+		check = (*line == '\0') ? ft_square_check(win, cur)
+			: ft_error(4, win, "square");
+	return (check == 0 ? 0 : ft_error(check, win, "square"));
 }
 
-int		ft_square_check(t_shape **current)
+int		ft_square_check(t_window *win, t_shape **current)
 {
 	int check;
 
+	check = 0;
 	if (!current || !(*current))
-		return (ft_error(17));
+		return (ft_error(17, win, ""));
 	if ((*current)->height < 0.0)
-		return (ft_error(20));
-	check = ft_pt_check((*current)->pt_0);
-	check = ft_color_check((*current)->color);
-	check = ft_ori_check((*current)->ori);
+		return (ft_error(20, win, ""));
+	check = ft_pt_check(win, (*current)->pt_0);
+	check = (check == 0) ? ft_ori_check(win, (*current)->ori) : check;
+	check = (check == 0) ? ft_color_check(win, (*current)->color) : check;
 	return (check);
 }
 

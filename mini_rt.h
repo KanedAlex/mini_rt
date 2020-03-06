@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/29 16:18:11 by alienard          #+#    #+#             */
-/*   Updated: 2020/03/03 09:47:59 by alienard         ###   ########.fr       */
+/*   Updated: 2020/03/05 16:24:58 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ typedef struct	s_window
 }				t_window;
 
 void			ft_parse(int *check, t_window *win, int fd);
+void			ft_parse_resol(int *res, t_window *win, char *line);
+void			ft_parse_amb(int *amb, t_window *win, char *line);
 int				ft_which_id(char *line);
 void			ft_which_shape(t_shape *sh, t_ray *ray);
 void			ft_iterate_in_line(char **line);
@@ -142,40 +144,37 @@ void			ft_argb_init(t_argb *a);
 void			ft_pt_init(t_pt *a, double x, double y, double z);
 int				ft_amb_light_init(t_window *amb_light, char *line);
 int				ft_resol_init(t_window *resol, char *line);
-int				ft_cam_init(t_cam **begin, char *line);
-int				ft_light_init(t_light **begin, char *line);
-int				ft_shape_init(t_shape **begin, char *line);
-int				ft_color_init(t_argb *col, char **line);
-int				ft_point_init(t_pt *pt, char **line);
-int				ft_sphere_init(t_shape **current, char *line);
-int				ft_plane_init(t_shape **current, char *line);
-int				ft_square_init(t_shape **current, char *line);
-int				ft_cylinder_init(t_shape **current, char *line);
-int				ft_triangle_init(t_shape **current, char *line);
+int				ft_cam_init(t_window *win, t_cam **begin, char *line);
+int				ft_light_init(t_window *win, t_light **begin, char *line);
+int				ft_shape_init(t_window *win, t_shape **begin, char *line);
+int				ft_color_init(t_window *win, t_argb *col, char **line);
+int				ft_point_init(t_window *win, t_pt *pt, char **line);
+int				ft_sphere_init(t_window *win, t_shape **current, char *line);
+int				ft_plane_init(t_window *win, t_shape **current, char *line);
+int				ft_square_init(t_window *win, t_shape **current, char *line);
+int				ft_cylinder_init(t_window *win, t_shape **current, char *line);
+int				ft_triangle_init(t_window *win, t_shape **current, char *line);
 
 int				ft_check_resol(t_window *win);
 int				ft_check_amb_light(t_window *win);
-int				ft_check_cam_parsing(t_cam *current);
-int				ft_check_light_parsing(t_light *current);
-int				ft_check_shape_parsing(t_shape *current);
-int				ft_color_check(t_argb color);
-int				ft_pt_check(t_pt pt);
-int				ft_ori_check(t_pt ori);
-int				ft_sphere_check(t_shape **current);
-int				ft_plane_check(t_shape **current);
-int				ft_square_check(t_shape **current);
-int				ft_cylinder_check(t_shape **current);
-int				ft_triangle_check(t_shape **current);
+int				ft_check_cam_parsing(t_window *win, t_cam *current);
+int				ft_check_light_parsing(t_window *win, t_light *current);
+int				ft_check_shape_parsing(t_window *win, t_shape *current);
+int				ft_color_check(t_window *win, t_argb color);
+int				ft_pt_check(t_window *win, t_pt pt);
+int				ft_ori_check(t_window *win, t_pt ori);
+int				ft_sphere_check(t_window *win, t_shape **current);
+int				ft_plane_check(t_window *win, t_shape **current);
+int				ft_square_check(t_window *win, t_shape **current);
+int				ft_cylinder_check(t_window *win, t_shape **current);
+int				ft_triangle_check(t_window *win, t_shape **current);
 
 t_pt			ft_pt_create(double x, double y, double z);
 void			ft_swap_pt(t_pt *a, t_pt *b);
 
-int				ft_error(int error);
-void			ft_error_save(int error);
-void			ft_shape_error(int error);
-void			ft_light_error(int error);
-void			ft_cam_error(int error);
-
+int				ft_error(int error, t_window *win, const char *str);
+void			ft_error_id(t_window *win, char *line);
+void			ft_error_param(int amb, int res, t_window *win);
 int				ft_close(t_window *win);
 int				ft_free_lst_cam(t_window *win);
 int				ft_free_lst_light(t_window *win);

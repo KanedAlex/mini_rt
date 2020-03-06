@@ -6,42 +6,43 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 14:00:15 by alienard          #+#    #+#             */
-/*   Updated: 2020/03/02 18:11:50 by alienard         ###   ########.fr       */
+/*   Updated: 2020/03/05 15:24:15 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-int		ft_triangle_init(t_shape **current, char *line)
+int		ft_triangle_init(t_window *win, t_shape **cur, char *line)
 {
 	int check;
 
-	(*current)->id = 't';
+	(*cur)->id = 't';
 	while ((ft_isspace(*line)) == 1 || (ft_isalpha(*line)) == 1)
 		line++;
-	check = (ft_isnum(line) == 1) ? ft_point_init(&(*current)->pt_0, &line)
-		: ft_error(35);
-	check = (ft_isnum(line) == 1) ? ft_point_init(&(*current)->pt_1, &line)
-		: ft_error(35);
-	check = (ft_isnum(line) == 1) ? ft_point_init(&(*current)->pt_2, &line)
-		: ft_error(35);
-	check = (ft_isdigit(*line) == 1) ? ft_color_init(&(*current)->color, &line)
-		: ft_error(35);
+	check = (ft_isnum(line) == 1) ? ft_point_init(win, &(*cur)->pt_0, &line)
+		: ft_error(7, win, "triangle point 1");
+	check = (ft_isnum(line) == 1) ? ft_point_init(win, &(*cur)->pt_1, &line)
+		: ft_error(7, win, "triangle point 2");
+	check = (ft_isnum(line) == 1) ? ft_point_init(win, &(*cur)->pt_2, &line)
+		: ft_error(7, win, "triangle point 3");
+	check = (ft_isdigit(*line) == 1) ? ft_color_init(win, &(*cur)->color, &line)
+		: ft_error(7, win, "triangle color");
 	if (check == 0)
-		check = (*line == '\0') ? ft_triangle_check(current) : ft_error(26);
-	return (check);
+		check = (*line == '\0') ? ft_triangle_check(win, cur)
+			: ft_error(4, win, "triangle");
+	return (check == 0 ? 0 : ft_error(check, win, "triangle"));
 }
 
-int		ft_triangle_check(t_shape **current)
+int		ft_triangle_check(t_window *win, t_shape **current)
 {
 	int check;
 
 	if (!current || !(*current))
-		return (ft_error(17));
-	check = ft_pt_check((*current)->pt_0);
-	check = ft_pt_check((*current)->pt_1);
-	check = ft_pt_check((*current)->pt_2);
-	check = ft_color_check((*current)->color);
+		return (ft_error(17, win, ""));
+	check = ft_pt_check(win, (*current)->pt_0);
+	check = (check == 0) ? ft_pt_check(win, (*current)->pt_1) : check;
+	check = (check == 0) ? ft_pt_check(win, (*current)->pt_2) : check;
+	check = (check == 0) ? ft_color_check(win, (*current)->color) : check;
 	return (check);
 }
 

@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 11:14:29 by alienard          #+#    #+#             */
-/*   Updated: 2020/03/02 18:53:51 by alienard         ###   ########.fr       */
+/*   Updated: 2020/03/05 15:05:38 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_check_resol(t_window *win)
 {
-	if (!win || !win->x || !win->y || win->x < 0 || win->y < 0)
-		return (ft_error(8));
+	if (!win || !win->x || !win->y || win->x <= 0 || win->y <= 0)
+		return (ft_error(7, win, "resolution"));
 	if (win->x > 2560)
 		win->x = 2560;
 	if (win->y > 1440)
@@ -28,37 +28,37 @@ int	ft_check_amb_light(t_window *win)
 	int check;
 
 	if (!win)
-		return (ft_error(21));
+		return (ft_error(7, win, "amb_light params, no amb_light"));
 	if (!win->ratio)
-		return (ft_error(22));
+		return (ft_error(7, win, "amb_light params, no ratio"));
 	if (win->ratio < 0.0 || 1.0 < win->ratio)
-		return (ft_error(9));
-	check = ft_color_check(win->col);
-	return ((check == 0) ? check : ft_error(check));
+		return (ft_error(9, win, "amb_light ratio"));
+	check = ft_color_check(win, win->col);
+	return ((check == 0) ? check : ft_error(check, win, "amb_light"));
 }
 
-int	ft_check_cam_parsing(t_cam *current)
+int	ft_check_cam_parsing(t_window *win, t_cam *current)
 {
 	int check;
 
 	if (!current)
-		return (ft_error(14));
+		return (ft_error(7, win, "camera params, no camera"));
 	if (current->fov < 0 || current->fov > 180)
-		return (ft_error(16));
-	check = ft_pt_check(current->coord);
-	check = ft_ori_check(current->ori);
-	return ((check == 0) ? check : ft_error(check));
+		return (ft_error(7, win, "camera params, no fov"));
+	check = ft_pt_check(win, current->coord);
+	check = (check == 0) ? ft_ori_check(win, current->ori) : check;
+	return ((check == 0) ? check : ft_error(check, win, "camera"));
 }
 
-int	ft_check_light_parsing(t_light *current)
+int	ft_check_light_parsing(t_window *win, t_light *current)
 {
 	int check;
 
 	if (!current)
-		return (ft_error(18));
+		return (ft_error(7, win, "light params, no light"));
 	if (current->light_ratio < 0.0 || current->light_ratio > 1.0)
-		return (ft_error(19));
-	check = ft_pt_check(current->coord);
-	check = ft_color_check(current->col);
-	return ((check == 0) ? check : ft_error(check));
+		return (ft_error(7, win, "light params, no ratio"));
+	check = ft_pt_check(win, current->coord);
+	check = (check == 0) ? ft_color_check(win, current->col) : check;
+	return ((check == 0) ? check : ft_error(check, win, "light"));
 }

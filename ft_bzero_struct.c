@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 20:35:36 by alienard          #+#    #+#             */
-/*   Updated: 2020/03/02 18:06:18 by alienard         ###   ########.fr       */
+/*   Updated: 2020/03/03 11:43:07 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int		ft_window_init(t_window *win)
 	win->img_ptr = NULL;
 	win->data = NULL;
 	win->endian = -1;
-	win->x = -1;
-	win->y = -1;
+	win->x = 0;
+	win->y = 0;
 	win->ratio = -1;
 	win->resol = RESOL;
 	return (0);

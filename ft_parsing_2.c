@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 21:04:12 by alienard          #+#    #+#             */
-/*   Updated: 2020/02/19 13:26:35 by alienard         ###   ########.fr       */
+/*   Updated: 2020/03/05 16:16:01 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,47 +38,50 @@ void	ft_iterate_in_line(char **line)
 		(*line)++;
 }
 
-int		ft_cam_init(t_cam **begin, char *line)
+int		ft_cam_init(t_window *win, t_cam **begin, char *line)
 {
-	t_cam *current;
+	t_cam *cur;
 
-	if (!(current = ft_calloc(1, sizeof(t_cam))))
-		return (ft_error(6));
+	if (!(cur = ft_calloc(1, sizeof(t_cam))))
+		return (ft_error(6, win, "camera"));
+	cur->next = *begin;
+	*begin = cur;
 	while ((ft_isspace(*line)) == 1 || (ft_isalpha(*line)) == 1)
 		line++;
-	(ft_isnum(line) == 1) ? ft_point_init(&(*current).coord, &line)
-		: ft_error(32);
-	(ft_isnum(line) == 1) ? ft_point_init(&(*current).ori, &line)
-		: ft_error(32);
-	current->fov = ((ft_isdigit(*line) == 1) ? ft_atoi(line) : ft_error(32));
+	(ft_isnum(line) == 1) ? ft_point_init(win, &(*cur).coord, &line)
+		: ft_error(3, win, "camera");
+	(ft_isnum(line) == 1) ? ft_point_init(win, &(*cur).ori, &line)
+		: ft_error(7, win, "camera orientation");
+	cur->fov = (ft_isdigit(*line) == 1) ? ft_atoi(line)
+		: ft_error(7, win, "camera fov");
 	while ((ft_isdigit(*line)) == 1)
 		line++;
 	while ((ft_isspace(*line)) == 1)
 		line++;
-	current->next = *begin;
-	*begin = current;
-	return ((*line == '\0') ? ft_check_cam_parsing(current) : ft_error(23));
+	return (*line == '\0' ?
+		ft_check_cam_parsing(win, cur) : ft_error(4, win, "camera"));
 }
 
-int		ft_light_init(t_light **begin, char *line)
+int		ft_light_init(t_window *win, t_light **begin, char *line)
 {
-	t_light *current;
+	t_light *cur;
 
-	if (!(current = ft_calloc(1, sizeof(t_light))))
-		return (ft_error(6));
+	if (!(cur = ft_calloc(1, sizeof(t_light))))
+		return (ft_error(6, win, "light"));
+	cur->next = *begin;
+	*begin = cur;
 	while ((ft_isspace(*line)) == 1 || (ft_isalpha(*line)) == 1)
 		line++;
-	(ft_isnum(line) == 1) ? ft_point_init(&(*current).coord, &line)
-		: ft_error(33);
-	(*current).light_ratio = ((ft_isdigit(*line) == 1) ? ft_atof(line)
-		: ft_error(33));
+	(ft_isnum(line) == 1) ? ft_point_init(win, &(*cur).coord, &line)
+		: ft_error(3, win, "light");
+	(*cur).light_ratio = ((ft_isdigit(*line) == 1) ? ft_atof(line)
+		: ft_error(7, win, "light ratio"));
 	while ((ft_isdigit(*line)) == 1 || *line == '.')
 		line++;
 	while ((ft_isspace(*line)) == 1)
 		line++;
-	(ft_isdigit(*line) == 1) ? ft_color_init(&(*current).col, &line)
-		: ft_error(33);
-	current->next = *begin;
-	*begin = current;
-	return ((*line == '\0') ? ft_check_light_parsing(current) : ft_error(24));
+	(ft_isdigit(*line) == 1) ? ft_color_init(win, &(*cur).col, &line)
+		: ft_error(7, win, "light color");
+	return ((*line == '\0') ? ft_check_light_parsing(win, cur)
+		: ft_error(4, win, "light"));
 }
