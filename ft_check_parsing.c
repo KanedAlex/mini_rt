@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 11:14:29 by alienard          #+#    #+#             */
-/*   Updated: 2020/03/05 15:05:38 by alienard         ###   ########.fr       */
+/*   Updated: 2020/03/07 10:42:14 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,11 @@ int	ft_check_light_parsing(t_window *win, t_light *current)
 	check = ft_pt_check(win, current->coord);
 	check = (check == 0) ? ft_color_check(win, current->col) : check;
 	return ((check == 0) ? check : ft_error(check, win, "light"));
+}
+
+void	ft_check_parsing(t_window *win)
+{
+	ft_check_resol(win);
+	ft_check_amb_light(win);
+	ft_check_cam_parsing(win, win->beg_cam);
 }

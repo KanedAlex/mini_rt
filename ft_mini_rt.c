@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 19:17:00 by alienard          #+#    #+#             */
-/*   Updated: 2020/03/06 14:08:53 by alienard         ###   ########.fr       */
+/*   Updated: 2020/03/07 10:44:31 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ void	ft_mlx_init(t_window *win, int ac, char **av)
 		ret = ft_save(win);
 		ret == 0 ? ft_close(win) : ft_error(2, win, "save");
 	}
-	if (ac == 3 && ft_strncmp("-save", av[2], ft_strlen(av[2])) != 0)
-		ft_error(0, win, "arguments");
 	mlx_hook(win->win_ptr, 17, 0, &ft_close, win);
 	mlx_loop(win->mlx_ptr);
 }
@@ -96,15 +94,15 @@ int		main(int ac, char **av)
 		return (ft_error(0, &win, "arguments"));
 	if (ft_strncmp("rt\0", ft_strrchr(av[1], '.') + 1, 3) != 0)
 		ft_error(1, &win, ".rt");
+	if (ac == 3 && ft_strncmp("-save", av[2], ft_strlen(av[2])) != 0)
+		ft_error(0, &win, "arguments");
 	if ((fd = open(av[1], O_RDONLY)) < 0)
 		return (ft_error(2, &win, "open"));
 	ft_parse(&check, &win, fd);
 	(check != 0) ? ft_close(&win) : check;
 	if (close(fd) < 0)
 		return (ft_error(2, &win, "close"));
-	ft_check_resol(&win);
-	ft_check_amb_light(&win);
-	ft_check_cam_parsing(&win, win.beg_cam);
+	ft_check_parsing(&win);
 	win.cur_cam = win.beg_cam;
 	if (!(win.mlx_ptr = mlx_init()))
 		return (check = ft_error(2, &win, "initialize mlx"));

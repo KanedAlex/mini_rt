@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/29 16:18:11 by alienard          #+#    #+#             */
-/*   Updated: 2020/03/05 16:24:58 by alienard         ###   ########.fr       */
+/*   Updated: 2020/03/07 10:42:39 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ int				ft_square_init(t_window *win, t_shape **current, char *line);
 int				ft_cylinder_init(t_window *win, t_shape **current, char *line);
 int				ft_triangle_init(t_window *win, t_shape **current, char *line);
 
+void			ft_check_parsing(t_window *win);
 int				ft_check_resol(t_window *win);
 int				ft_check_amb_light(t_window *win);
 int				ft_check_cam_parsing(t_window *win, t_cam *current);
