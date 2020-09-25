@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 19:25:37 by alienard          #+#    #+#             */
-/*   Updated: 2020/03/06 16:10:38 by alienard         ###   ########.fr       */
+/*   Updated: 2020/07/17 14:59:39 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	ft_close(t_window *win)
 	{
 		mlx_destroy_window(win->mlx_ptr, win->win_ptr);
 	}
+	system("leaks miniRT");
 	exit(0);
 	return (0);
 }
