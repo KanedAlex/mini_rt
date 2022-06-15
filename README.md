@@ -13,6 +13,8 @@ Goals :
 - to the implementation of mathematics formulas
 - step up in terms of parsing and error handling
 
+The configuration file had very precise restrictions, which lead me to implement my very first testing automation : [invalid_rt_file_tester](https://github.com/lienardale/invalid_rt_file_tester)
+
 Stack :  
 
 <a href="https://www.cprogramming.com/" target="_blank" rel="noreferrer"> 
