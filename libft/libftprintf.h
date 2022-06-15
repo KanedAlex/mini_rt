@@ -6,7 +6,7 @@
 /*   By: alienard <alienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 10:06:39 by alienard          #+#    #+#             */
-/*   Updated: 2019/12/27 16:50:42 by alienard         ###   ########.fr       */
+/*   Updated: 2022/06/14 15:46:56 by alienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void			ft_pad_st(int *y, va_list ap, t_bool *fl);
 int				ft_preci_init(int y, const char *tab, va_list ap, t_bool *fl);
 int				ft_print_lpad(t_bool *fl, int r);
 int				ft_print_preci(t_bool *fl, int r);
-int				ft_putnbr_hexa(long long unsigned int nbr, int r);
-int				ft_putnbr_hexm(long long unsigned int nbr, int r);
+int				ft_putnbr_hexa(long long int nbr, int r);
+int				ft_putnbr_hexm(long long int nbr, int r);
 int				ft_putnbr_unsigned(unsigned int n, int r);
 int				ft_putnbr_dec(int n, int fd);
 int				ft_s(t_bool *fl, int r);
