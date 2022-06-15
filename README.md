@@ -1,9 +1,23 @@
 42 Paris project - miniRT
 
+![Screenshot 1](./saves/cylinder.bmp?raw=true)
+
 A basic RayTracer using minilibX
 
-Goals :	introduct us to the RayTracing algorithms and to the implementation of mathematics formulas
-		step up in terms of parsing and error handling
+<a href="https://github.com/JaeSeoKim/badge42"><img src="https://badge42.vercel.app/api/v2/cl4cq9w7c004409k3asnbj82v/project/1633981" alt="alienard's 42 miniRT Score" /></a>
+
+
+
+Goals :	
+- introduct us to the RayTracing algorithms
+- to the implementation of mathematics formulas
+- step up in terms of parsing and error handling
+
+Stack :  
+
+<a href="https://www.cprogramming.com/" target="_blank" rel="noreferrer"> 
+	<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg" alt="c" width="40" height="40"/> 
+</a> 
 
 Handles :
 
@@ -34,3 +48,10 @@ Handles :
 - mooving the pov up and down with the 'page up' and 'page down' keys
 
 - rotating the pov up, down, left, right with the corresponding arrow keys
+
+Screenshots :
+
+![Screenshot 2](./saves/example.bmp?raw=true)
+![Screenshot 3](./saves/lights.bmp?raw=true)
+![Screenshot 4](./saves/objects.bmp?raw=true)
+![Screenshot 5](./saves/triangle.bmp?raw=true)
