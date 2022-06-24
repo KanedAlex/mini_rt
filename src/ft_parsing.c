@@ -94,6 +94,7 @@ int		ft_amb_light_init(t_window *amb, char *line)
 
 int		ft_resol_init(t_window *res, char *line)
 {
+	printf("line_in_resol_init:|%s|\n", line);
 	while (*line && ((ft_isspace(*line)) == 1
 				|| (ft_isalpha(*line)) == 1))
 		line++;

@@ -41,27 +41,30 @@ int		ft_aff(t_window *win)
 
 void	ft_parse(int *check, t_window *win, int fd)
 {
-	char	*line;
 	int		res;
 	int		amb;
 
 	res = 0;
 	amb = 0;
-	while ((*check = get_next_line(fd, &line)) >= 0)
+	while ((*check = get_next_line(fd, &win->line, 0)) >= 0)
 	{
-		if (line[0] == 'R' && (ft_isspace(line[1])) == 1)
-			ft_parse_resol(&res, win, line);
-		else if (line[0] == 'A' && (ft_isspace(line[1])) == 1)
-			ft_parse_amb(&amb, win, line);
-		else if (line[0] == 'c' && (ft_isspace(line[1])) == 1)
-			ft_cam_init(win, &win->beg_cam, line);
-		else if (line[0] == 'l' && (ft_isspace(line[1])) == 1)
-			ft_light_init(win, &win->beg_light, line);
-		else if ((ft_isalpha(line[0])) == 1)
-			ft_shape_init(win, &win->beg_sh, line);
-		else if (line[0] != '\0')
-			ft_error_id(win, line);
-		free(line);
+		printf("line:|%s|\n", win->line);
+		if (win->line[0] == 'R' && (ft_isspace(win->line[1])) == 1)
+			ft_parse_resol(&res, win, win->line);
+		else if (win->line[0] == 'A' && (ft_isspace(win->line[1])) == 1)
+			ft_parse_amb(&amb, win, win->line);
+		else if (win->line[0] == 'c' && (ft_isspace(win->line[1])) == 1)
+			ft_cam_init(win, &win->beg_cam, win->line);
+		else if (win->line[0] == 'l' && (ft_isspace(win->line[1])) == 1)
+			ft_light_init(win, &win->beg_light, win->line);
+		else if ((ft_isalpha(win->line[0])) == 1)
+			ft_shape_init(win, &win->beg_sh, win->line);
+		else if (win->line[0] != '\0')
+			ft_error_id(win);
+		if (win->line){
+			free(win->line);
+			win->line = NULL;
+		}
 		if (*check == 0)
 			break ;
 	}
@@ -86,7 +89,6 @@ void	ft_mlx_init(t_window *win, int ac, char **av)
 int		main(int ac, char **av)
 {
 	t_window	win;
-	int			fd;
 	int			check;
 
 	ft_window_init(&win);
@@ -96,11 +98,11 @@ int		main(int ac, char **av)
 		ft_error(1, &win, ".rt");
 	if (ac == 3 && ft_strncmp("-save", av[2], ft_strlen(av[2])) != 0)
 		ft_error(0, &win, "arguments");
-	if ((fd = open(av[1], O_RDONLY)) < 0)
+	if ((win.fd = open(av[1], O_RDONLY)) < 0)
 		return (ft_error(2, &win, "open"));
-	ft_parse(&check, &win, fd);
+	ft_parse(&check, &win, win.fd);
 	(check != 0) ? ft_close(&win) : check;
-	if (close(fd) < 0)
+	if (close(win.fd) < 0)
 		return (ft_error(2, &win, "close"));
 	ft_check_parsing(&win);
 	win.cur_cam = win.beg_cam;

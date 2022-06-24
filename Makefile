@@ -77,7 +77,7 @@ CC =		gcc
 
 RM = 		rm -f
 
-CFLAGS =	-Wall -Wextra -Werror -g -ofast
+CFLAGS =	-Wall -Wextra -Werror -g3 -ofast
 
 all:		$(LIB) $(MLX) $(NAME)
 

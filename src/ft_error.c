@@ -12,9 +12,12 @@
 
 #include "mini_rt.h"
 
-void	ft_error_id(t_window *win, char *line)
+void	ft_error_id(t_window *win)
 {
-	free(line);
+	if (win->line){
+		free(win->line);
+		win->line = NULL;
+	}
 	ft_error(5, win, "line");
 }
 

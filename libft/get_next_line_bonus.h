@@ -26,6 +26,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
 
 typedef struct	s_gnl
 {
@@ -41,7 +42,8 @@ typedef struct	s_buff
 	char			*tmp;
 }				t_buff;
 
-int				get_next_line(int fd, char **line);
+int				get_next_line(int fd, char **line, int interrupt);
+int				ft_free_all(t_gnl **begin);
 int				ft_check_ln(char **line, t_gnl *current,
 				char *buffer, t_gnl **begin);
 int				ft_ifnl(char **line, t_gnl *current, size_t i, char *tmp);
