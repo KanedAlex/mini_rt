@@ -6,14 +6,27 @@ A basic RayTracer using minilibX
 
 <a href="https://github.com/JaeSeoKim/badge42"><img src="https://badge42.vercel.app/api/v2/cl4cq9w7c004409k3asnbj82v/project/1633981" alt="alienard's 42 miniRT Score" /></a>
 
+## code stats :
 
+Project : 
+- 1 contributor (solo project)
+- Total 2253 lines
+  - C : 1933 lines, 57.7%
+  - headers : 982 lines, 14.9%
+- Git
+  - 1 branche
+  - 0 pull requests
+  - 53 commits
+
+Tester :
+The configuration file had very precise restrictions, which lead me to implement my very first testing automation : [invalid_rt_file_tester](https://github.com/lienardale/invalid_rt_file_tester)
+- 
 
 Goals :	
 - introduct us to the RayTracing algorithms
 - to the implementation of mathematics formulas
 - step up in terms of parsing and error handling
 
-The configuration file had very precise restrictions, which lead me to implement my very first testing automation : [invalid_rt_file_tester](https://github.com/lienardale/invalid_rt_file_tester)
 
 Stack :  
 
