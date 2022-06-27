@@ -113,6 +113,8 @@ typedef struct	s_shape
 
 typedef struct	s_window
 {
+	int				fd;
+	char			*line;
 	void			*mlx_ptr;
 	void			*win_ptr;
 	void			*img_ptr;
@@ -174,7 +176,7 @@ t_pt			ft_pt_create(double x, double y, double z);
 void			ft_swap_pt(t_pt *a, t_pt *b);
 
 int				ft_error(int error, t_window *win, const char *str);
-void			ft_error_id(t_window *win, char *line);
+void			ft_error_id(t_window *win);
 void			ft_error_param(int amb, int res, t_window *win);
 int				ft_close(t_window *win);
 int				ft_free_lst_cam(t_window *win);

@@ -14,6 +14,8 @@
 
 int		ft_window_init(t_window *win)
 {
+	win->fd = -1;
+	win->line = NULL;
 	win->beg_sh = NULL;
 	win->beg_cam = NULL;
 	win->beg_light = NULL;

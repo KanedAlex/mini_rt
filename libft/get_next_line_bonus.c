@@ -38,6 +38,21 @@ void	ft_free_fd(t_gnl *current, t_gnl **begin)
 	free(current);
 }
 
+int		ft_free_all(t_gnl **begin)
+{
+	t_gnl *iter = *begin;
+	t_gnl *tmp = iter;
+	
+	while (iter)
+	{
+		tmp = iter->next;
+		free(iter->rest);
+		free(iter);
+		iter = tmp;
+	}
+	return (-1);
+}
+
 void	ft_find_fd(int fd, t_gnl **begin, t_gnl **current)
 {
 	if (!(*begin))
@@ -119,7 +134,7 @@ int		ft_check_ln(char **line, t_gnl *current, char *buffer, t_gnl **begin)
 	return (2);
 }
 
-int		get_next_line(int fd, char **line)
+int		get_next_line(int fd, char **line, int interrupt)
 {
 	static t_gnl	*begin = NULL;
 	t_gnl			*current;
@@ -128,6 +143,8 @@ int		get_next_line(int fd, char **line)
 
 	if (fd <= -1 || !line || BUFFER_SIZE == 0)
 		return (-1);
+	if (interrupt == 1)
+		return (ft_free_all(&begin));
 	ft_find_fd(fd, &begin, &current);
 	while ((current->ret = read(fd, buff.buffer, BUFFER_SIZE)) > 0)
 	{
