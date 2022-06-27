@@ -1,14 +1,28 @@
-42 Paris project - miniRT
+# miniRT
 
 ![Screenshot 1](./saves/cylinder.bmp?raw=true)
 
-A basic RayTracer using minilibX
+**A basic RayTracer using minilibX**    
+project of 42 Paris's common-core
 
 <a href="https://github.com/JaeSeoKim/badge42"><img src="https://badge42.vercel.app/api/v2/cl4cq9w7c004409k3asnbj82v/project/1633981" alt="alienard's 42 miniRT Score" /></a>
 
-## code stats :
+## Goals :	
+- introduct us to the RayTracing algorithms
+- to the implementation of mathematics formulas
+- step up in terms of parsing and error handling
 
-Project : 
+## Tester :
+The configuration file had very precise restrictions, which lead me to implement my very first testing automation : [invalid_rt_file_tester](https://github.com/lienardale/invalid_rt_file_tester)   
+It tests :
+- invalid configurations (in 198 different ways)
+- memory leaks for each of these configurations   
+
+Feel free to use it, fork it, and report eventual issues.
+
+## Code stats :
+
+### Project : 
 - 1 contributor (solo project)
 - Total 2253 lines
   - C : 1933 lines, 57.7%
@@ -16,27 +30,21 @@ Project :
 - Git
   - 1 branche
   - 0 pull requests
-  - 53 commits
+  - 53 commits   
 
-Tester :
-The configuration file had very precise restrictions, which lead me to implement my very first testing automation : [invalid_rt_file_tester](https://github.com/lienardale/invalid_rt_file_tester)
-- 
+### Tester :
+- 198 invalid configurations
+- Shell : 361 lines
 
-Goals :	
-- introduct us to the RayTracing algorithms
-- to the implementation of mathematics formulas
-- step up in terms of parsing and error handling
-
-
-Stack :  
+## Stack :  
 
 <a href="https://www.cprogramming.com/" target="_blank" rel="noreferrer"> 
 	<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg" alt="c" width="40" height="40"/> 
 </a> 
 
-Handles :
+## Features :
 
-- clean window handling (no problem when resizsd, minimized or so on)
+- clean window handling (no problem when resized, minimized or so on)
 
 - 5 simple geometric objects (plan, sphere, cylinder, square, triangle)
 
@@ -64,7 +72,7 @@ Handles :
 
 - rotating the pov up, down, left, right with the corresponding arrow keys
 
-Screenshots :
+## Screenshots :
 
 ![Screenshot 2](./saves/example.bmp?raw=true)
 ![Screenshot 3](./saves/lights.bmp?raw=true)
