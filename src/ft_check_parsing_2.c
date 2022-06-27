@@ -45,7 +45,6 @@ int		ft_color_check(t_window *win, t_argb color)
 
 void	ft_parse_resol(int *res, t_window *win, char *line)
 {
-	printf("line_in_parse_resol:|%s|\n", line);
 	ft_resol_init(win, line);
 	(*res)++;
 }

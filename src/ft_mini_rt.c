@@ -48,7 +48,6 @@ void	ft_parse(int *check, t_window *win, int fd)
 	amb = 0;
 	while ((*check = get_next_line(fd, &win->line, 0)) >= 0)
 	{
-		printf("line:|%s|\n", win->line);
 		if (win->line[0] == 'R' && (ft_isspace(win->line[1])) == 1)
 			ft_parse_resol(&res, win, win->line);
 		else if (win->line[0] == 'A' && (ft_isspace(win->line[1])) == 1)

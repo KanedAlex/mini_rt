@@ -98,7 +98,7 @@ $(LIB):
 		@make -C $(LIBPATH)
 
 clean:
-			$(RM) -r $(OBJDIR)
+			$(RM) -r $(OBJ_DIR)
 			@make -C $(LIBPATH) clean
 
 fclean:		clean
